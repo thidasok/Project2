@@ -1,0 +1,187 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Project2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <script src="jquery-3-6.min.js"></script>
+</head>
+<body>
+    <div class="bar">
+        <div class="btn">
+            <i class="fa-solid fa-plus"></i> Add New
+        </div>
+    </div>
+    <table id="tbl">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+        <tr class="total">
+            <td colspan="2">Total</td>
+            <td colspan="2">0</td>
+        </tr>
+    </table>
+    <!-- <div class="popup">
+        <div class="frm">
+            <div class="Header">
+                Student Form
+                <div class="btn-close">
+                    <i class="fa-solid fa-xmark" ></i>
+                </div>
+            </div>
+            <div class="body">
+                <label for="">ID</label>
+                <input type="text" name="" id="" class="frm-control">
+                <label for="">Name</label>
+                <input type="text" name="" id="" class="frm-control">
+                <label for="Price">Price</label>
+                <input type="text" name="" id="" class="frm-control">
+            </div>
+            <div class="footer">
+                <div class="btnsave">
+                    <i class="fa-solid fa-floppy-disk"></i> Save
+                </div>
+            </div>
+        </div>
+    </div> -->
+</body>
+<script>
+    $(document).ready(function(){
+        var body=$('body');
+        var tbl=$('#tbl');
+        var frm=`
+                <div class="frm">
+                    <div class="Header">
+                        Student Form
+                        <div class="btn-close">
+                            <i class="fa-solid fa-xmark" ></i>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <label for="">ID</label>
+                        <input type="text" name="" id="txt-id" class="frm-control" readonly value="1">
+                        <label for="">Name</label>
+                        <input type="text" name="" id="txt-name" class="frm-control">
+                        <label for="Price">Price</label>
+                        <input type="text" name="" id="txt-price" class="frm-control">
+                    </div>
+                    <div class="footer">
+                        <div class="btnsave">
+                            <i class="fa-solid fa-floppy-disk"></i> Save
+                        </div>
+                        <div class="btnUpdate">
+                            <i class="fa-regular fa-pen-to-square"></i> Update
+                        </div>
+                    </div>
+                </div>
+        `;
+        var popup=`<div class="popup">${frm}</div>`;
+        $('.btn').click(function(){
+            //add form
+            
+            body.append(popup);
+            body.find('.frm #txt-id').val(getAuto());
+            body.find('.frm .btnsave').show();
+            body.find('.frm .btnUpdate').hide();
+        });
+        //close form
+        body.on("click",'.popup .frm .btn-close', function(){
+            $('.popup').remove();
+        });
+        //get auto id
+        function getAuto(){
+            var tr=tbl.find('tr').length;
+            return tr-1;
+        }
+        //add data to table
+        body.on("click",'.frm .btnsave',function(){
+            var Parent=$(this).parents('.frm');
+            var id=Parent.find('#txt-id');
+            var name=Parent.find('#txt-name');
+            var price=Parent.find('#txt-price');
+            if(id.val()==""){
+                alert("Please input ID");
+                id.focus();
+                return;
+            }
+            if(name.val()==""){
+                alert("Please Input name");
+                name.focus();
+                return;
+            }
+            if(price.val()==""){
+                alert("Please input price");
+                price.focus();
+                return;
+            }
+            if($.isNumeric(price.val())==false){
+                alert("Please Input number");
+                price.focus();
+                return;
+            }
+            var tr=`
+                    <tr class='data'>
+                        <td>${id.val()}</td>
+                        <td>${name.val()}</td>
+                        <td>${price.val()}</td>
+                        <td><input type="button" value="Edit" class='btnedit'></td>
+                    </tr>
+            `;
+            
+            // tbl.append(tr);
+            tbl.find('tr.total').before(tr);
+            getTotal();
+            id.val(getAuto());
+            name.val("");
+            price.val("");
+            name.focus();
+        })
+        body.on('keydown','.frm', function(e){
+            if(e.which==13){
+                body.find('.btnsave').click();
+            }
+            else if(e.which==27){
+                body.find('.btn-close').click();
+            }
+        })
+        function getTotal(){
+            var total=0;
+            var trTotal=tbl.find('tr.data');
+            var num=trTotal.length;
+            for(i=0;i<num;i++){
+                total=total+ parseFloat(trTotal.eq(i).find('td').eq(2).text());
+            }
+            tbl.find('tr.total td:eq(1)').text(total);
+        };
+        //edit data
+        var ind;
+        tbl.on('click','.btnedit',function(){
+            var Parent=$(this).parents('tr');
+            var id=Parent.find("td:eq(0)").text();
+            var name=Parent.find("td:eq(1)").text();
+            var price=Parent.find("td:eq(2)").text();
+            ind=Parent.index();
+           
+            body.append(popup);
+           body.find(".frm #txt-id").val(id);
+           body.find(".frm #txt-name").val(name);
+           body.find(".frm #txt-price").val(price);
+           body.find('.frm .btnsave').hide();
+           body.find('.frm .btnUpdate').show();
+        })
+        body.on("click",'.frm .btnUpdate',function(){
+            var name=body.find('.frm #txt-name');
+            var price=body.find('.frm #txt-price');
+            tbl.find('tr:eq('+ind+') td:eq(1)').text(name.val());
+            tbl.find('tr:eq('+ind+') td:eq(2)').text(price.val());
+            getTotal();
+            $('.popup').remove();
+        });
+    });
+</script>
+</html>

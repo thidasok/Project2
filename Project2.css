@@ -1,0 +1,124 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style-type: none;
+}
+.bar{
+    width: 100%;
+    background-color: chocolate;
+    float: left;
+    padding: 8px;
+}
+.btn{
+    background-color: crimson;
+    color: white;
+    float: left;
+    padding:6px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+table{
+    width: 100%;
+    float: left;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+table tr th{
+    background-color: cadetblue;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #333;
+}
+table tr td{
+    border: 1px solid #333;
+    padding: 5px;
+}
+.popup{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(51, 51, 51, 0.326);
+    top: 0;
+    left: 0;
+    position: fixed;
+}
+.frm{
+    width: 400px;
+    background-color:white;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%,0);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.Header{
+    width: 100%;
+    height: 40px;
+    float: left;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    position: relative;
+}
+
+.btn-close{
+    width: 40px;
+    top: 0;
+    right: 0;
+    height: 100%;
+    position: absolute;
+    background-color: crimson;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+}
+.btn-close:hover{
+    background-color: black;
+}
+.body{
+    width: 100%;
+    background-color: white;
+    padding: 8px;
+}
+label{
+    width: 100%;
+    float: left;
+}
+.frm-control{
+    width: 100%;
+    float: left;
+    padding: 8px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+.footer{
+    width: 100%;
+    float: left;
+    background-color: #eee;
+    padding: 7px;
+}
+.btnsave{
+    background-color: darkgreen;
+    float: right;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+table tr.total td{
+    background-color: green;
+    color: white;
+}
+.btnUpdate{
+    background-color: crimson;
+    float: right;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
